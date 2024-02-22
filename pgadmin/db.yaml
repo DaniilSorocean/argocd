@@ -3,6 +3,8 @@ kind: Deployment
 metadata:
   name: mysql-deployment
   namespace: default
+  annotations:
+    secret.reloader.stakater.com/reload: "vault-secret2"
 spec:
   replicas: 1
   selector:
@@ -17,11 +19,11 @@ spec:
       - name: mysql
         image: mysql
         env:
-        # - name: MYSQL_DATABASE
-        #   valueFrom:
-        #     secretKeyRef:
-        #       name: vault-secret2
-        #       key: dbname
+        - name: MYSQL_DATABASE
+          valueFrom:
+            secretKeyRef:
+              name: vault-secret2
+              key: dbname
         - name: MYSQL_USER
           valueFrom:
             secretKeyRef:
